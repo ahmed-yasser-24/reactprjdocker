@@ -1,0 +1,23 @@
+pipeline {
+    agent {
+        label 'docker'
+    }
+}
+
+stages {
+    stage('build a docker image') {
+        steps {
+            script {
+                sh 'docker build -t ahmedyasser/reactprjdocker -f Dockerfile.dev .'
+            }
+        }
+    }
+    stage('run tests') {
+        steps {
+            script {
+                env.DOCKERBUILD = 1
+                sh 'docker run -e CI=TRUE ahmedyasser/reactprjdocker npm run test'
+            }
+        }
+    }
+}
