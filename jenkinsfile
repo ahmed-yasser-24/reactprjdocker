@@ -2,22 +2,21 @@ pipeline {
     agent {
         label 'docker'
     }
-}
-
-stages {
-    stage('build a docker image') {
-        steps {
-            script {
-                sh 'docker build -t ahmed-yasser-24/reactprjdocker -f Dockerfile.dev .'
+    stages { 
+        stage('build a docker image') {
+            steps {
+                script {
+                    sh 'docker build -t ahmed-yasser-24/reactprjdocker -f Dockerfile.dev .'
+                }
             }
         }
-    }
-    stage('run tests') {
-        steps {
-            script {
-                env.DOCKERBUILD = 1
-                sh 'docker run -e CI=TRUE ahmed-yasser-24/reactprjdocker npm run test'
+        stage('run tests') {
+            steps {
+                script {
+                    env.DOCKERBUILD = 1 
+                    sh 'docker run -e CI=true ahmed-yasser-24/reactprjdocker npm run test'
+                }
             }
         }
-    }
+    } 
 }
